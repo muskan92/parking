@@ -1,5 +1,6 @@
 package com.muskan.parking.bo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.muskan.parking.constant.VehicleType;
 import com.muskan.parking.exception.IncorrectParkingSlot;
 import com.muskan.parking.exception.ParkingSlotNotAvailable;
@@ -13,7 +14,8 @@ import java.util.Date;
 @Data
 public class ParkingSlot {
 
-    Logger logger = LoggerFactory.getLogger(ParkingSlot.class);
+    @JsonIgnore
+    private Logger logger = LoggerFactory.getLogger(ParkingSlot.class);
 
     private int slotNumber;
     private int level;
@@ -21,6 +23,7 @@ public class ParkingSlot {
     private Date startTime;
     private Date endTime;
     private VehicleType type;
+    private String status;
 
     public ParkingSlot(int slotNumber, int level, VehicleType type) {
         this.slotNumber = slotNumber;
@@ -30,7 +33,7 @@ public class ParkingSlot {
 
     public boolean isAvailable(){
 
-        return vehicle==null;
+        return this.vehicle==null;
     }
 
     public void park(Vehicle v) throws IncorrectParkingSlot, ParkingSlotNotAvailable {
@@ -44,20 +47,23 @@ public class ParkingSlot {
             logger.info(v.getVType()+" "+v.getNumber()+" is parked");
         }
         else {
-            throw new IncorrectParkingSlot(v.getVType()+" is not compatible for "+this.type);
+            throw new IncorrectParkingSlot(v.getVType()+" is not compatible for "+this.type+" parking");
         }
     }
 
-    public void unpark() throws VehicleNotAvailable {
+    public Bill unparkAndGetBill() throws VehicleNotAvailable {
 
         if(this.startTime!=null && !(isAvailable())) {
             this.endTime = new Date();
+            Bill totalBill = new Bill(this.startTime, this.endTime,this.getBill(),this.type,this.vehicle.getNumber());
             this.vehicle = null;
+            return totalBill;
+
         }
         else{
             throw new VehicleNotAvailable("Nothing to unpark");
-
         }
+
     }
 
     double getBill() throws VehicleNotAvailable{

@@ -5,8 +5,8 @@ import com.muskan.parking.constant.VehicleType;
 
 public class Car extends Vehicle {
 
-    public Car(VehicleType vType, String number) {
-        super(vType, number);
+    public Car(VehicleType vType, String number, String color) {
+        super(vType, number, color);
     }
 
 }

@@ -36,17 +36,16 @@ class ParkingApplicationTests {
 	@Test
 	void parkingTest() {
 
-
 		List<ParkingSlot> parkingSlotListLevel1 = new ArrayList<>();
 
 		IntStream.range(1,10).forEach(i->{
 			parkingSlotListLevel1.add(new ParkingSlot(i,1,VehicleType.CAR));
 		});
 
-		Vehicle car = new Car(VehicleType.CAR,"BR-1234");
-		Vehicle car1 = new Car(VehicleType.CAR,"BR-123411");
-		Vehicle car2 = new Car(VehicleType.CAR,"BR-123422");
-		Vehicle car3 = new Car(VehicleType.CAR,"BR-123433");
+		Vehicle car =  new Car(VehicleType.CAR,"BR-1234","Red");
+		Vehicle car1 = new Car(VehicleType.CAR,"BR-123411","White");
+		Vehicle car2 = new Car(VehicleType.CAR,"BR-123422","Black");
+		Vehicle car3 = new Car(VehicleType.CAR,"BR-123433","Gray");
 
 		tryPark(parkingSlotListLevel1,car);
 		tryPark(parkingSlotListLevel1,car1);
